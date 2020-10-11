@@ -28,7 +28,7 @@
 
 $(document).ready(function(){
 
-    $('#form').loadData({'action':'home', 'loadtxt':'Creating form'}, 'view/home', afterFormgen);
+    $('#block').loadData({'action':'home', 'loadtxt':'Creating form', 'view':'home'}, 'view', afterFormgen);
 
     function showResphead(entry){
         console.log(entry);
@@ -65,14 +65,30 @@ $(document).ready(function(){
         return table;
     }
 
-    function loadPage(clickBtnValue){
-        if(clickBtnValue=='print'){
+    function crudData(clickBtnValue, table){
+        data = {'action': clickBtnValue, 'loadtxt': 'Loading', 'class': table};
+        if(clickBtnValue=='destroy'){
+            data['loadtxt'] = 'Resetting';
+            $('#data').loadData(data, 'ajax');
+        }else if(clickBtnValue=='save'){
+            data['responsediv'] = '#data';
+            $('#form').formData(data, afterAjax);
+        }else{
+            $('#data').loadData(data, 'ajax', afterAjax);
+        }
+    }
+
+    function loadPage(clickBtnValue, deze){
+        table=$(deze).data('table');
+        if(table!=undefined){
+            crudData(clickBtnValue, table);
+        }else if(clickBtnValue=='print'){
             table=getTable('.table-responsive');
             $('#data').loadData({'action': clickBtnValue, 'loadtxt': 'Exporting', 'table':table}, 'view/pdf-viewer');
-        }else if(clickBtnValue=='destroy'){
-            $('#data').loadData({'action': clickBtnValue, 'loadtxt': 'Resetting'}, 'ajax');
+        }else if(clickBtnValue=='pay'){
+            $('#payment').formData({ 'loadtxt': 'Loading', 'responsediv':'#block'},afterAuth);
         }else{
-            $('#date').formData({'action': clickBtnValue, 'loadtxt': 'Loading', 'responsediv':'#data'}, afterAjax);
+            $('#form').formData({'action': clickBtnValue, 'loadtxt': 'Loading', 'responsediv':'#data'}, afterAjax);
         }
     }
 
@@ -93,14 +109,22 @@ $(document).ready(function(){
             $('#print').disableInput('disabled');
         if(clickBtnValue!='transaction')
             $('#filter').addClass('hidden');
-        loadPage(clickBtnValue);
+        loadPage(clickBtnValue, deze);
     }
     $('.btn').ajaxInput('value', ajaxButton);
+
+    function loadLink(linkHref, deze){
+        const menu = $(deze).data('page');
+        data = { 'loadtxt':'Loading', 'view':linkHref};
+        if(menu!=undefined)
+            data['class'] = menu;
+        $('#block').loadData(data, 'view', afterFormgen);
+    }
 
     function ajaxLink(linkHref, deze){
         var linkID = $(deze).attr('id');
         if(linkID!==undefined){
-            $('#date').formData({'action': 'transaction', 'loadtxt': 'Sorting', 'order':linkHref, 'linkId':linkID, 'responsediv':'#data'}, afterAjax);
+            $('#form').formData({'action': 'transaction', 'loadtxt': 'Sorting', 'order':linkHref, 'linkId':linkID, 'responsediv':'#data'}, afterAjax);
 
         }else{
             $('#form').loadData({ 'action':linkHref,'loadtxt':'Loading'}, `view/${linkHref}`,afterFormgen);
@@ -111,6 +135,6 @@ $(document).ready(function(){
     $('.lnk').ajaxInput('href', ajaxLink);
 
     $('#filter').debounceKeyup(function(){
-        $('#date').formData({'action':'filter','criteria':$(this).val(), 'loadtxt':'Filtering', 'responsediv':'#data'});
+        $('#form').formData({'action':'filter','criteria':$(this).val(), 'loadtxt':'Filtering', 'responsediv':'#data'});
     });
 });

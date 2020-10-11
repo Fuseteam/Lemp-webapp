@@ -1,6 +1,8 @@
 <?php
-require('view/home.php');
-
+if(isset($_POST['class'])){
+    $class='\\model\\'.$_POST['class'];
+    $form=new $class('columns',array('Name'=>'text','Type'=>'text'));
+}
 switch($_POST['action']){
 case 'select':
     $form->noresults="no data";
