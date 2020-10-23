@@ -15,7 +15,12 @@ services:
         - MARIADB_DATABASE=test
       volumes:
         - 'data:/bitnami'
-
+    localtunnel:
+      image: 'efrecon/localtunnel'
+      links:
+        - testcon
+      command:
+        --local-host testcon --port 80 --subdomain webapp
 #${PWD} resolves to the current path docker-compose is called from if and only if the user is added to the docker group
 #if you need sudo to run docker-compose please replace ${PWD} to the full path to the folders where you like documentroot and data to be mounted
 #docker will not create the folders in question the folders must be created before running docker-compose
