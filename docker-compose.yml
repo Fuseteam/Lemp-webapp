@@ -1,7 +1,7 @@
 version: '2'
 services:
     testcon:
-      image: 'lemp-webapp'
+      image: 'fuseteam/lemp-webapp'
       ports:
         - '8090:80'
       volumes:
