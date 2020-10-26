@@ -5,8 +5,7 @@ services:
       ports:
         - '8090:80'
       volumes:
-        - 'documentroot:/var/www'
-        - 'data:/var/lib/mysql-data'
+        - 'documentroot:/var/www/html'
       depends_on:
         - mariadb
     mariadb:
