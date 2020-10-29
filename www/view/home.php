@@ -1,7 +1,7 @@
 <?php
 $form=new model\form('columns',array('Name'=>'text','Type'=>'text'));
 if($_POST['action']=='home'){
-    echo '<form id="form" class="form element-block" method="POST" action="controller/ajax">
+    echo '<form id="form" class="form element-block" method="POST" action="ajax">
         <div class="form-fields">'.
         $form->formInputFields().
         '</div>
