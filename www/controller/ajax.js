@@ -28,7 +28,7 @@
 
 $(document).ready(function(){
 
-    $('#block').loadData({'action':'home', 'loadtxt':'Creating form', 'view':'home'}, 'view', afterFormgen);
+    $('#block').loadData({'loadtxt':'Creating form', 'view':'home'}, 'view', afterFormgen);
 
     function showResphead(entry){
         console.log(entry);
@@ -127,7 +127,7 @@ $(document).ready(function(){
             $('#form').formData({'action': 'transaction', 'loadtxt': 'Sorting', 'order':linkHref, 'linkId':linkID, 'responsediv':'#data'}, afterAjax);
 
         }else{
-            $('#form').loadData({ 'action':linkHref,'loadtxt':'Loading'}, `view/${linkHref}`,afterFormgen);
+            loadLink(linkHref, deze);
         }
     }
 
