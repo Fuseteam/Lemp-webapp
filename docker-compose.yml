@@ -39,6 +39,6 @@ volumes:
     driver_opts:
         type: none
         o: bind
-        device: "${PWD}/www"
+        device: "c:\\Users\\noahh\\test_git\\lemp-webapp\\www"
   data:
     driver: local
